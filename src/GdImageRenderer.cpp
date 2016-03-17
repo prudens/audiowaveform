@@ -20,7 +20,6 @@
 // Audio Waveform Image Generator.  If not, see <http://www.gnu.org/licenses/>.
 //
 //------------------------------------------------------------------------------
-
 #include "GdImageRenderer.h"
 #include "Array.h"
 #include "MathUtil.h"
@@ -161,12 +160,13 @@ bool GdImageRenderer::create(
 
 int GdImageRenderer::createColor(const RGBA& color)
 {
-    if (color.hasAlpha()) {
-        return gdImageColorAllocateAlpha(image_, color.red, color.green, color.blue, 127 - (color.alpha / 2));
-    }
-    else {
-        return gdImageColorAllocate(image_, color.red, color.green, color.blue);
-    }
+     if (color.hasAlpha()) {
+         return gdImageColorAllocateAlpha(image_, color.red, color.green, color.blue, 127 - (color.alpha / 2));
+     }
+     else {
+         return gdImageColorAllocate(image_, color.red, color.green, color.blue);
+     }
+    return 0;
 }
 
 //------------------------------------------------------------------------------

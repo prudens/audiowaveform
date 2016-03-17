@@ -20,7 +20,6 @@
 // Audio Waveform Image Generator.  If not, see <http://www.gnu.org/licenses/>.
 //
 //------------------------------------------------------------------------------
-
 #include "WaveformGenerator.h"
 #include "WaveformBuffer.h"
 #include "Streams.h"

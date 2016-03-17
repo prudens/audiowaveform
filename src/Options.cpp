@@ -217,10 +217,10 @@ void Options::showUsage(std::ostream& stream) const
 
 void Options::showVersion(std::ostream& stream) const
 {
-    stream << "AudioWaveform v"
-           << VERSION_MAJOR << '.'
-           << VERSION_MINOR << '.'
-           << VERSION_PATCH << '\n';
+    stream << "AudioWaveform v" << "2.1.0\n";
+//            << VERSION_MAJOR << '.'
+//            << VERSION_MINOR << '.'
+//            << VERSION_PATCH << '\n';
 }
 
 //------------------------------------------------------------------------------

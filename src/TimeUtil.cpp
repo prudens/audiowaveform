@@ -24,7 +24,7 @@
 #include "TimeUtil.h"
 
 #include <cstdio>
-
+#include "stdio.h"
 //------------------------------------------------------------------------------
 
 namespace TimeUtil {

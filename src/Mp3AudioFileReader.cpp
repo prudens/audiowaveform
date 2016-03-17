@@ -234,7 +234,7 @@ bool Mp3AudioFileReader::open(const char* filename)
 
         struct stat stat_buf;
 
-        int descriptor = fileno(file_);
+        int descriptor = _fileno(file_);
 
         if (descriptor == -1 || fstat(descriptor, &stat_buf) != 0) {
             error_stream << "Failed to determine file size: "
