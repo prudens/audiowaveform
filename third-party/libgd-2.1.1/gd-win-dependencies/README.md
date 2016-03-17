@@ -1,0 +1,1 @@
+git clone https://github.com/imazen/gd-win-dependencies 
