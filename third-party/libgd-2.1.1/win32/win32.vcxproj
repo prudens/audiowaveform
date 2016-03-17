@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{541125AA-A8EF-41AC-A899-662ED015E0CC}</ProjectGuid>
+    <RootNamespace>win32</RootNamespace>
+    <ProjectName>libgd</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetName>libgd</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetName>libgd</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level1</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalOptions>/D "BGDWIN32" /D "WIN32" /D "_WIN32" /D"MSWIN32" /D "HAVE_FT2BUILD_H" /D "HAVE_GD_H" /D "HAVE_PNG_H" /D "HAVE_ICONV_H" /D"HAVE_GD_BUNDLED" /D "HAVE_LIBFREETYPE" /D"HAVE_LIBJPEG" /D "HAVE_LIBPNG" /D "HAVE_LIBZ" /D "_CRT_SECURE_NO_WARNINGS" %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>..\gd-win-dependencies\x86\include;..\gd-win-dependencies\x86\include\freetype;..\gd-win-dependencies\x86\include\libjpeg;..\gd-win-dependencies\x86\include\libjpeg-turbo;..\gd-win-dependencies\x86\include\libpng15;..\gd-win-dependencies\x86\include\X11</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\gd-win-dependencies\x86\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>turbojpeg-static.lib;freetype_a.lib;libpng_a.lib;libiconv_a.lib;zlib_a.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y /D $(SolutionDir)$(Configuration)\libgd.dll $(SolutionDir)..\bin\$(Configuration)\libgd.dll</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level1</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\gd-win-dependencies\x86\include;..\gd-win-dependencies\x86\include\freetype;..\gd-win-dependencies\x86\include\libjpeg;..\gd-win-dependencies\x86\include\libjpeg-turbo;..\gd-win-dependencies\x86\include\libpng15;..\gd-win-dependencies\x86\include\X11</AdditionalIncludeDirectories>
+      <AdditionalOptions>/D "BGDWIN32" /D "WIN32" /D "_WIN32" /D"MSWIN32" /D "HAVE_FT2BUILD_H" /D "HAVE_GD_H" /D "HAVE_PNG_H" /D "HAVE_ICONV_H" /D"HAVE_GD_BUNDLED" /D "HAVE_LIBFREETYPE" /D"HAVE_LIBJPEG" /D "HAVE_LIBPNG" /D "HAVE_LIBZ" /D "_CRT_SECURE_NO_WARNINGS" %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>..\gd-win-dependencies\x86\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;turbojpeg-static.lib;freetype_a.lib;libpng_a.lib;libiconv_a.lib;zlib_a.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y /D $(SolutionDir)$(Configuration)\libgd.dll $(SolutionDir)\..\bin\$(Configuration)\</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\gd.c" />
+    <ClCompile Include="..\src\gdcache.c" />
+    <ClCompile Include="..\src\gdfontg.c" />
+    <ClCompile Include="..\src\gdfontl.c" />
+    <ClCompile Include="..\src\gdfontmb.c" />
+    <ClCompile Include="..\src\gdfonts.c" />
+    <ClCompile Include="..\src\gdfontt.c" />
+    <ClCompile Include="..\src\gdft.c" />
+    <ClCompile Include="..\src\gdfx.c" />
+    <ClCompile Include="..\src\gdhelpers.c" />
+    <ClCompile Include="..\src\gdkanji.c" />
+    <ClCompile Include="..\src\gdtables.c" />
+    <ClCompile Include="..\src\gd_bmp.c" />
+    <ClCompile Include="..\src\gd_color.c" />
+    <ClCompile Include="..\src\gd_color_map.c" />
+    <ClCompile Include="..\src\gd_color_match.c" />
+    <ClCompile Include="..\src\gd_crop.c" />
+    <ClCompile Include="..\src\gd_filename.c" />
+    <ClCompile Include="..\src\gd_filter.c" />
+    <ClCompile Include="..\src\gd_gd.c" />
+    <ClCompile Include="..\src\gd_gd2.c" />
+    <ClCompile Include="..\src\gd_gif_in.c" />
+    <ClCompile Include="..\src\gd_gif_out.c" />
+    <ClCompile Include="..\src\gd_interpolation.c" />
+    <ClCompile Include="..\src\gd_io.c" />
+    <ClCompile Include="..\src\gd_io_dp.c" />
+    <ClCompile Include="..\src\gd_io_file.c" />
+    <ClCompile Include="..\src\gd_io_ss.c" />
+    <ClCompile Include="..\src\gd_jpeg.c" />
+    <ClCompile Include="..\src\gd_matrix.c" />
+    <ClCompile Include="..\src\gd_nnquant.c" />
+    <ClCompile Include="..\src\gd_png.c" />
+    <ClCompile Include="..\src\gd_rotate.c" />
+    <ClCompile Include="..\src\gd_security.c" />
+    <ClCompile Include="..\src\gd_ss.c" />
+    <ClCompile Include="..\src\gd_tga.c" />
+    <ClCompile Include="..\src\gd_tiff.c" />
+    <ClCompile Include="..\src\gd_topal.c" />
+    <ClCompile Include="..\src\gd_transform.c" />
+    <ClCompile Include="..\src\gd_version.c" />
+    <ClCompile Include="..\src\gd_wbmp.c" />
+    <ClCompile Include="..\src\gd_webp.c" />
+    <ClCompile Include="..\src\gd_xbm.c" />
+    <ClCompile Include="..\src\wbmp.c" />
+    <ClCompile Include="..\src\webpimg.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\gd.h" />
+    <ClInclude Include="..\src\gdcache.h" />
+    <ClInclude Include="..\src\gdfontg.h" />
+    <ClInclude Include="..\src\gdfontl.h" />
+    <ClInclude Include="..\src\gdfontmb.h" />
+    <ClInclude Include="..\src\gdfonts.h" />
+    <ClInclude Include="..\src\gdfontt.h" />
+    <ClInclude Include="..\src\gdfx.h" />
+    <ClInclude Include="..\src\gdhelpers.h" />
+    <ClInclude Include="..\src\gdpp.h" />
+    <ClInclude Include="..\src\gd_color.h" />
+    <ClInclude Include="..\src\gd_color_map.h" />
+    <ClInclude Include="..\src\gd_errors.h" />
+    <ClInclude Include="..\src\gd_intern.h" />
+    <ClInclude Include="..\src\gd_io.h" />
+    <ClInclude Include="..\src\gd_io_stream.h" />
+    <ClInclude Include="..\src\gd_nnquant.h" />
+    <ClInclude Include="..\src\gd_tga.h" />
+    <ClInclude Include="..\src\jisx0208.h" />
+    <ClInclude Include="..\src\wbmp.h" />
+    <ClInclude Include="..\src\webpimg.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

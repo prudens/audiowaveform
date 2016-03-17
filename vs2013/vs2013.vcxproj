@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{12C14D93-708C-4DBC-A577-C2F2EF44CA39}</ProjectGuid>
+    <RootNamespace>vs2013</RootNamespace>
+    <ProjectName>audiowaveform</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetName>audiowaveform</TargetName>
+    <OutDir>..\bin\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetName>audiowaveform</TargetName>
+    <OutDir>..\bin\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\third-party\include;..\third-party\libmad;..\third-party\libgd-2.1.1\src</AdditionalIncludeDirectories>
+      <AdditionalOptions>/D "_CRT_SECURE_NO_WARNINGS" %(AdditionalOptions)</AdditionalOptions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>libsndfile-1.lib;libmad.lib;libgd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Mega-Nerd\libsndfile\lib;D:\LinuxShared\project\trunk\3rd\boost1.5.9\boost\lib_win32;F:\repo\audiowaveform\vs2013\third-party;./Debug</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\third-party\include;..\third-party\libmad;..\third-party\libgd-2.1.1\src</AdditionalIncludeDirectories>
+      <AdditionalOptions>/D "_CRT_SECURE_NO_WARNINGS" %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Mega-Nerd\libsndfile\lib;D:\LinuxShared\project\trunk\3rd\boost1.5.9\boost\lib_win32;./Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libsndfile-1.lib;libmad.lib;libgd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\Array.h" />
+    <ClInclude Include="..\src\AudioFileReader.h" />
+    <ClInclude Include="..\src\AudioProcessor.h" />
+    <ClInclude Include="..\src\GdImageRenderer.h" />
+    <ClInclude Include="..\src\madlld-1.1p1\bstdfile.h" />
+    <ClInclude Include="..\src\MathUtil.h" />
+    <ClInclude Include="..\src\Mp3AudioFileReader.h" />
+    <ClInclude Include="..\src\OptionHandler.h" />
+    <ClInclude Include="..\src\Options.h" />
+    <ClInclude Include="..\src\Rgba.h" />
+    <ClInclude Include="..\src\SndFileAudioFileReader.h" />
+    <ClInclude Include="..\src\Streams.h" />
+    <ClInclude Include="..\src\TimeUtil.h" />
+    <ClInclude Include="..\src\WaveformBuffer.h" />
+    <ClInclude Include="..\src\WaveformColors.h" />
+    <ClInclude Include="..\src\WaveformGenerator.h" />
+    <ClInclude Include="..\src\WaveformRescaler.h" />
+    <ClInclude Include="..\src\WavFileWriter.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\AudioFileReader.cpp" />
+    <ClCompile Include="..\src\AudioProcessor.cpp" />
+    <ClCompile Include="..\src\GdImageRenderer.cpp" />
+    <ClCompile Include="..\src\madlld-1.1p1\bstdfile.c" />
+    <ClCompile Include="..\src\Main.cpp" />
+    <ClCompile Include="..\src\MathUtil.cpp" />
+    <ClCompile Include="..\src\Mp3AudioFileReader.cpp" />
+    <ClCompile Include="..\src\OptionHandler.cpp" />
+    <ClCompile Include="..\src\Options.cpp" />
+    <ClCompile Include="..\src\Rgba.cpp" />
+    <ClCompile Include="..\src\SndFileAudioFileReader.cpp" />
+    <ClCompile Include="..\src\TimeUtil.cpp" />
+    <ClCompile Include="..\src\WaveformBuffer.cpp" />
+    <ClCompile Include="..\src\WaveformColors.cpp" />
+    <ClCompile Include="..\src\WaveformGenerator.cpp" />
+    <ClCompile Include="..\src\WaveformRescaler.cpp" />
+    <ClCompile Include="..\src\WavFileWriter.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "audiowaveform", "vs2013.vcxproj", "{12C14D93-708C-4DBC-A577-C2F2EF44CA39}"
+	ProjectSection(ProjectDependencies) = postProject
+		{541125AA-A8EF-41AC-A899-662ED015E0CC} = {541125AA-A8EF-41AC-A899-662ED015E0CC}
+		{83377BD7-623B-4D93-A3FB-D8824EEC736A} = {83377BD7-623B-4D93-A3FB-D8824EEC736A}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgd", "..\third-party\libgd-2.1.1\win32\win32.vcxproj", "{541125AA-A8EF-41AC-A899-662ED015E0CC}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libmad", "..\third-party\libmad\msvc++\libmad.vcxproj", "{83377BD7-623B-4D93-A3FB-D8824EEC736A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{12C14D93-708C-4DBC-A577-C2F2EF44CA39}.Debug|Win32.ActiveCfg = Debug|Win32
+		{12C14D93-708C-4DBC-A577-C2F2EF44CA39}.Debug|Win32.Build.0 = Debug|Win32
+		{12C14D93-708C-4DBC-A577-C2F2EF44CA39}.Release|Win32.ActiveCfg = Release|Win32
+		{12C14D93-708C-4DBC-A577-C2F2EF44CA39}.Release|Win32.Build.0 = Release|Win32
+		{541125AA-A8EF-41AC-A899-662ED015E0CC}.Debug|Win32.ActiveCfg = Debug|Win32
+		{541125AA-A8EF-41AC-A899-662ED015E0CC}.Debug|Win32.Build.0 = Debug|Win32
+		{541125AA-A8EF-41AC-A899-662ED015E0CC}.Release|Win32.ActiveCfg = Release|Win32
+		{541125AA-A8EF-41AC-A899-662ED015E0CC}.Release|Win32.Build.0 = Release|Win32
+		{83377BD7-623B-4D93-A3FB-D8824EEC736A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{83377BD7-623B-4D93-A3FB-D8824EEC736A}.Debug|Win32.Build.0 = Debug|Win32
+		{83377BD7-623B-4D93-A3FB-D8824EEC736A}.Release|Win32.ActiveCfg = Release|Win32
+		{83377BD7-623B-4D93-A3FB-D8824EEC736A}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
