@@ -104,7 +104,8 @@
     <ClInclude Include="..\src\WaveformGenerator.h" />
     <ClInclude Include="..\src\WaveformRescaler.h" />
     <ClInclude Include="..\src\WavFileWriter.h" />
-    <ClInclude Include="DemoApp.h" />
+    <ClInclude Include="d2dui.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\AudioFileReader.cpp" />
@@ -124,13 +125,7 @@
     <ClCompile Include="..\src\WaveformGenerator.cpp" />
     <ClCompile Include="..\src\WaveformRescaler.cpp" />
     <ClCompile Include="..\src\WavFileWriter.cpp" />
-    <ClCompile Include="DemoApp.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resource.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="fern.jpg" />
+    <ClCompile Include="d2dui.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

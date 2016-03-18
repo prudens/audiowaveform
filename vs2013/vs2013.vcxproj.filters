@@ -72,11 +72,14 @@
     <ClInclude Include="..\src\madlld-1.1p1\bstdfile.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="DemoApp.h">
-      <Filter>UI</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\Main.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="d2dui.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -131,18 +134,8 @@
     <ClCompile Include="..\src\madlld-1.1p1\bstdfile.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DemoApp.cpp">
+    <ClCompile Include="d2dui.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resource.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="fern.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
   </ItemGroup>
 </Project>
