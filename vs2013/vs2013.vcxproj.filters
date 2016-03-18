@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{6c01e605-bc7f-4981-beb5-31a3befc7107}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Array.h">
@@ -69,6 +72,12 @@
     <ClInclude Include="..\src\madlld-1.1p1\bstdfile.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="DemoApp.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Main.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\AudioFileReader.cpp">
@@ -122,5 +131,18 @@
     <ClCompile Include="..\src\madlld-1.1p1\bstdfile.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DemoApp.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="fern.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

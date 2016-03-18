@@ -59,7 +59,7 @@
       <AdditionalDependencies>turbojpeg-static.lib;freetype_a.lib;libpng_a.lib;libiconv_a.lib;zlib_a.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y /D $(SolutionDir)$(Configuration)\libgd.dll $(SolutionDir)..\bin\$(Configuration)\libgd.dll</Command>
+      <Command>xcopy /Y /D $(SolutionDir)$(Configuration)\libgd.dll $(SolutionDir)..\bin\$(Configuration)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
