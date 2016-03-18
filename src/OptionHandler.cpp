@@ -22,7 +22,7 @@
 //------------------------------------------------------------------------------
 
 #include "OptionHandler.h"
-#include "Config.h"
+//#include "Config.h"
 
 #include "GdImageRenderer.h"
 #include "Mp3AudioFileReader.h"
@@ -326,6 +326,45 @@ bool OptionHandler::renderWaveformImage(
     );
 }
 
+bool OptionHandler::renderWaveformUI(
+    const boost::filesystem::path& input_filename,
+    const boost::filesystem::path& output_filename,
+    const Options& options
+    )
+{
+    WaveformBuffer buffer;
+    const std::unique_ptr<ScaleFactor> scale_factor = createScaleFactor( options );
+
+    const boost::filesystem::path output_file_ext = output_filename.extension();
+
+    const std::unique_ptr<AudioFileReader> audio_file_reader =
+        createAudioFileReader( input_filename );
+
+    if ( audio_file_reader == nullptr )
+    {
+        error_stream << "Unknown file type: " << input_filename << '\n';
+        return false;
+    }
+
+    if ( !audio_file_reader->open( input_filename.string().c_str() ) )
+    {
+        return false;
+    }
+
+
+    WaveformGenerator processor( buffer, *scale_factor );
+
+    if ( !audio_file_reader->run( processor ) )
+    {
+        return false;
+    }
+
+//    assert( output_file_ext == ".dat" || output_file_ext == ".json" );
+
+   // const int bits = options.getBits();
+    buffer_ = buffer;
+    return true;
+}
 //------------------------------------------------------------------------------
 
 bool OptionHandler::run(const Options& options)
@@ -363,6 +402,15 @@ bool OptionHandler::run(const Options& options)
                 output_filename,
                 options
             );
+        }
+        else if ( ( input_file_ext == ".mp3" ||
+            input_file_ext == ".wav" ||
+            input_file_ext == ".flac" ) &&
+            ( output_file_ext == ".ui" ) ){
+            success = renderWaveformUI( 
+                input_filename, 
+                output_filename,
+                options );
         }
         else if (input_file_ext == ".dat" &&
                  (output_file_ext == ".txt" || output_file_ext == ".json")) {

@@ -27,6 +27,7 @@
 //------------------------------------------------------------------------------
 
 #include <boost/filesystem.hpp>
+#include "WaveformBuffer.h"
 
 //------------------------------------------------------------------------------
 
@@ -68,6 +69,15 @@ class OptionHandler
             const boost::filesystem::path& output_filename,
             const Options& options
         );
+        bool renderWaveformUI(
+            const boost::filesystem::path& input_filename,
+            const boost::filesystem::path& output_filename,
+            const Options& options
+            );
+public:
+        WaveformBuffer GetWaveBuffer()const { return buffer_; }
+private:
+    WaveformBuffer buffer_;
 };
 
 //------------------------------------------------------------------------------

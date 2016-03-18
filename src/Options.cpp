@@ -22,7 +22,7 @@
 //------------------------------------------------------------------------------
 
 #include "Options.h"
-#include "Config.h"
+//#include "Config.h"
 #include "Streams.h"
 #include "Rgba.h"
 
@@ -86,7 +86,7 @@ bool Options::parseCommandLine(int argc, const char* const* argv)
         "output file name (.wav, .dat, .png, .json)"
     )(
         "zoom,z",
-        po::value<int>(&samples_per_pixel_)->default_value(256),
+        po::value<int>(&samples_per_pixel_)->default_value(110),
         "zoom level (samples per pixel)"
     )(
         "pixels-per-second",
@@ -106,7 +106,7 @@ bool Options::parseCommandLine(int argc, const char* const* argv)
         "end time (seconds)"
     )(
         "width,w",
-        po::value<int>(&image_width_)->default_value(800),
+        po::value<int>(&image_width_)->default_value(1050),
         "image width (pixels)"
     )(
         "height,h",

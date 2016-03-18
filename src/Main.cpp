@@ -21,7 +21,7 @@
 //
 //------------------------------------------------------------------------------
 
-#include "Config.h"
+//#include "Config.h"
 #include "Options.h"
 #include "OptionHandler.h"
 
@@ -39,19 +39,21 @@ std::ostream& error_stream  = std::cerr;
 
 //------------------------------------------------------------------------------
 
-int main(int argc, const char* const* argv)
+WaveformBuffer waveform_main(int argc, const char* const* argv)
 {
+    OptionHandler option_handler;
     Options options;
 
     if (!options.parseCommandLine(argc, argv)) {
-        return 1;
+     //   return 1.;
     }
 
-    OptionHandler option_handler;
+    
 
     bool success = option_handler.run(options);
 
-    return success ? 0 : 1;
+   // return success ? 0 : 1;
+    return option_handler.GetWaveBuffer();
 }
 
 

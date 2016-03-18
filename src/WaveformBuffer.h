@@ -35,8 +35,8 @@ class WaveformBuffer
     public:
         WaveformBuffer();
 
-        WaveformBuffer(const WaveformBuffer& buffer) = delete;
-        WaveformBuffer& operator=(const WaveformBuffer& buffer) = delete;
+        WaveformBuffer(const WaveformBuffer& buffer) = default;
+        WaveformBuffer& operator=(const WaveformBuffer& buffer) = default;
 
     public:
         void setSampleRate(int sample_rate)

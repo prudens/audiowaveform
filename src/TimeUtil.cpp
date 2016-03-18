@@ -42,10 +42,10 @@ int secondsToString(char* str, size_t size, int seconds)
     seconds -= minutes * 60;
 
     if (hours > 0) {
-        return snprintf(str, size, "%02d:%02d:%02d", hours, minutes, seconds);
+        return _snprintf(str, size, "%02d:%02d:%02d", hours, minutes, seconds);
     }
     else {
-        return snprintf(str, size, "%02d:%02d", minutes, seconds);
+        return _snprintf(str, size, "%02d:%02d", minutes, seconds);
     }
 }
 

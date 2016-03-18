@@ -83,7 +83,6 @@ class GdImageRenderer
         int secondsToPixels(const double seconds) const;
 
     private:
-       // typedef char* gdImagePtr;
         gdImagePtr image_;
 
         int image_width_;
