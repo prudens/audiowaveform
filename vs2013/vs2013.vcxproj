@@ -92,13 +92,17 @@
     <ClInclude Include="..\src\madlld-1.1p1\bstdfile.h" />
     <ClInclude Include="..\src\Main.h" />
     <ClInclude Include="..\src\MathUtil.h" />
+    <ClInclude Include="..\src\min_max_heap.hpp" />
     <ClInclude Include="..\src\Mp3AudioFileReader.h" />
     <ClInclude Include="..\src\OptionHandler.h" />
     <ClInclude Include="..\src\Options.h" />
     <ClInclude Include="..\src\Rgba.h" />
     <ClInclude Include="..\src\SndFileAudioFileReader.h" />
     <ClInclude Include="..\src\Streams.h" />
+    <ClInclude Include="..\src\string_cvt.h" />
+    <ClInclude Include="..\src\timer.h" />
     <ClInclude Include="..\src\TimeUtil.h" />
+    <ClInclude Include="..\src\time_cvt.h" />
     <ClInclude Include="..\src\WaveformBuffer.h" />
     <ClInclude Include="..\src\WaveformColors.h" />
     <ClInclude Include="..\src\WaveformGenerator.h" />
@@ -126,6 +130,12 @@
     <ClCompile Include="..\src\WaveformRescaler.cpp" />
     <ClCompile Include="..\src\WavFileWriter.cpp" />
     <ClCompile Include="d2dui.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="fern.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

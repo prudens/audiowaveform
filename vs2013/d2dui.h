@@ -115,7 +115,14 @@ private:
         WPARAM wParam,
         LPARAM lParam
         );
-
+    template<typename T>
+    int secondsToSamples( T seconds ) const
+    {
+        return static_cast<int>( wavebuf_.getSampleRate() * seconds );
+    }
+    int getAxisLabelScale() const;
+    int secondsToPixels( const double seconds ) const;
+    void drawTimeAxisLabels() const;
 private:
     HWND m_hwnd;
     ID2D1Factory *m_pD2DFactory;

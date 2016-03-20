@@ -16,6 +16,12 @@
 
 #include "d2dui.h"
 #include "Main.h"
+#include "Array.h"
+#include "MathUtil.h"
+#include "TimeUtil.h"
+#include "string_cvt.h"
+#include "time_cvt.h"
+#include "../src/timer.h"
 /******************************************************************
 *                                                                 *
 * Provides the entry point for the application.                   *
@@ -29,6 +35,20 @@ int WINAPI WinMain(
     int /* nCmdShow */
     )
 {
+    
+        prudens::timer t;
+        uint32_t count = 1;
+        for ( int i = 0; i < 10; i++ )
+        {
+            t.start( i*100, true, [&] ( uint32_t time_id, void*userdata )
+            {
+                _CrtDbgReport( _CRT_WARN, __FILE__, __LINE__, "min_max_heap", "timer is coming %d\n", count++ );
+
+                    t.remove( time_id );
+            }, nullptr );
+        }
+       
+    
 
     // Ignore the return value because we want to continue running even in the
     // unlikely event that HeapSetInformation fails.
@@ -209,6 +229,7 @@ HRESULT DemoApp::CreateDeviceIndependentResources()
             L"en-us",
             &m_pTextFormat
             );
+       if(SUCCEEDED(hr)) m_pTextFormat->SetTextAlignment( DWRITE_TEXT_ALIGNMENT_CENTER );
     }
 		
     return hr;
@@ -391,7 +412,10 @@ HRESULT DemoApp::OnRender()
 {
 
     HRESULT hr = CreateDeviceResources();
-
+    D2D1_POINT_2F start = D2D1::Point2F( 100.0f, 200.f );
+    int width = 1000;
+    int height = 250;
+   
     if (SUCCEEDED(hr))
     {
         static const WCHAR szSolidBrushText[] = L"ID2D1SolidColorBrush";
@@ -405,15 +429,15 @@ HRESULT DemoApp::OnRender()
         m_pRenderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 
         // Define the shape of rectangles to be filled with brushes. 
-        //D2D1_RECT_F rcBrushRect = D2D1::RectF(5, 0, 150, 150);
-        D2D1_RECT_F rcBrushRect = D2D1::RectF( 5, 0, 5, 150 );
+        D2D1_RECT_F rcBrushRect = D2D1::RectF(5, 0, 150, 150);
+        //D2D1_RECT_F rcBrushRect = D2D1::RectF( 5, 0, 5, 150 );
         // Define the area where captions are drawn.
         D2D1_RECT_F rcTextRect = D2D1::RectF(5, 165, 175, 200);
    
         // Start with a white background.
 		m_pRenderTarget->Clear( D2D1::ColorF( D2D1::ColorF::White, 1.0f ) );
 // 
-//         // Translate for the solid color brush.
+        // Translate for the solid color brush.
 //         m_pRenderTarget->SetTransform(D2D1::Matrix3x2F::Translation(D2D1::SizeF(5, 5)));
 // 
 //         // Demonstrate a solid color brush.
@@ -487,21 +511,24 @@ HRESULT DemoApp::OnRender()
 //             );
 //         
 //         // Demonstrate a bitmap brush.
-// 		m_pBitmapBrush->SetTransform( D2D1::Matrix3x2F::Translation( 50.0, 0.0 ));
-//         m_pRenderTarget->FillRectangle(&rcBrushRect, m_pBitmapBrush);
+// 		//m_pBitmapBrush->SetTransform( D2D1::Matrix3x2F::Translation( 50.0, 0.0 ));
+//         //m_pRenderTarget->FillRectangle(&rcBrushRect, m_pBitmapBrush);
 //         m_pRenderTarget->DrawRectangle(&rcBrushRect, m_pBlackBrush, 1, NULL);
+        m_pRenderTarget->DrawRectangle( D2D1::RectF( start.x, start.y, start.x+width, start.y+height ),m_pBlackBrush );
        int size = wavebuf_.getSize();
-       for ( int i = 0; i < size; i++ )
+       FLOAT center = start.y + height;
+       for ( int i = 0; i < size && i < width; i++ )
        {
            int low = wavebuf_.getMinSample( i ) + 32768;
            int high = wavebuf_.getMaxSample( i ) + 32768;
 
            // scale to fit the bitmap
-           int low_y = 250 - low  * 200 / 65536;
-           int high_y = 250 - high * 200 / 65536;
-           m_pRenderTarget->DrawLine( D2D1::Point2F( 75.5f+i, low_y ), D2D1::Point2F( 75.5f+i, high_y ), m_pBlackBrush, 0.5f );
+           int low_y = center - low * height / 65536;
+           int high_y = center - high * height / 65536;
+           m_pRenderTarget->DrawLine( D2D1::Point2F( start.x+i+0.5, low_y ), D2D1::Point2F( start.x+i+0.5, high_y ), m_pBlackBrush, 0.5f );
        }
 
+       drawTimeAxisLabels();
         hr = m_pRenderTarget->EndDraw();
 
         if (hr == D2DERR_RECREATE_TARGET)
@@ -514,7 +541,72 @@ HRESULT DemoApp::OnRender()
     return hr;
 }
 
+void DemoApp::drawTimeAxisLabels() const
+{
+    D2D1_POINT_2F start = D2D1::Point2F( 100.0f, 200.f );
+    int width = 1000;
+    int height = 250;
 
+    const int marker_height = 10;
+    int start_time_ = 0;
+    // Time interval between axis markers (seconds)
+    const int axis_label_interval_secs = getAxisLabelScale();
+
+    // Distance between axis markers (pixels)
+    const int axis_label_interval_pixels = secondsToPixels( axis_label_interval_secs );
+
+    // Time of first axis marker (seconds)
+    const int first_axis_label_secs = MathUtil::roundUpToNearest( start_time_, axis_label_interval_secs );
+
+    // Distance between waveform start time and first axis marker (seconds)
+    const double axis_label_offset_secs = first_axis_label_secs - start_time_;
+
+    // Distance between waveform start time and first axis marker (samples)
+    const int axis_label_offset_samples = secondsToSamples( axis_label_offset_secs );
+
+    // Distance between waveform start time and first axis marker (pixels)
+    const int axis_label_offset_pixels = axis_label_offset_samples / wavebuf_.getSamplesPerPixel();
+
+    int secs = first_axis_label_secs;
+
+    for ( ;; )
+    {
+        const int x = axis_label_offset_pixels +
+            ( secs - first_axis_label_secs ) * wavebuf_.getSampleRate() / wavebuf_.getSamplesPerPixel();
+
+        if (x == 0)
+        {
+            secs += axis_label_interval_secs;
+            continue;
+        }
+        if ( x >= width )
+        {
+            break;
+        }
+        m_pRenderTarget->DrawLine( D2D1::Point2F(start.x+ x, start.y+height  ), D2D1::Point2F( start.x + x, start.y+height-10 ), m_pBlackBrush, 0.5f );
+        m_pRenderTarget->DrawLine( D2D1::Point2F( start.x + x, start.y ), D2D1::Point2F( start.x + x, start.y  + 10 ), m_pBlackBrush, 0.5f );
+
+        WCHAR wlabel[50] = {0};
+        char label[50];
+        const int label_length = TimeUtil::secondsToString( label, ARRAY_LENGTH( label ), secs );
+        size_t len = strlen( label ) + 1;
+        size_t converted = 0;
+        mbstowcs_s( &converted, wlabel, len, label, _TRUNCATE );
+
+        D2D1_RECT_F rcTextRect = D2D1::RectF( start.x + x-50, start.y + height - 30, start.x + x + 50, start.y + height);
+        m_pRenderTarget->DrawText(
+            wlabel,
+            ARRAYSIZE( wlabel ) - 1,
+            m_pTextFormat,
+            &rcTextRect,
+            m_pBlackBrush
+            );
+
+
+
+        secs += axis_label_interval_secs;
+    }
+}
 /******************************************************************
 *                                                                 *
 *  If the application receives a WM_SIZE message, this method     *
@@ -733,4 +825,45 @@ HRESULT DemoApp::LoadResourceBitmap(
     SafeRelease(&pConverter);
 
     return hr;
+}
+
+int DemoApp::getAxisLabelScale() const
+{
+    int base_secs = 1; // seconds
+
+    const int steps[] = { 1, 2, 5, 10, 20, 30 };
+
+    const int MIN_SPACING = 60; // pixels
+
+    int index = 0;
+
+    int secs;
+
+    for ( ;; )
+    {
+        secs = base_secs * steps[index];
+
+        int pixels = secondsToPixels( secs );
+
+        if ( pixels < MIN_SPACING )
+        {
+            if ( ++index == ARRAY_LENGTH( steps ) )
+            {
+                base_secs *= 60; // seconds -> minutes -> hours
+                index = 0;
+            }
+        }
+        else
+        {
+            // Spacing OK
+            break;
+        }
+    }
+
+    return secs;
+}
+
+int DemoApp::secondsToPixels( const double seconds ) const
+{
+    return static_cast<int>( seconds * wavebuf_.getSampleRate() / wavebuf_.getSamplesPerPixel() );
 }
