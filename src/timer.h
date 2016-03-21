@@ -1,15 +1,14 @@
 #pragma once
+#include <limits>
+#include <condition_variable>    // std::condition_variable
 #include <chrono>
 #include <thread>
 #include <mutex>
-#include <time_cvt.h>
 #include <memory>
-#include <queue>
 #include <functional>
 #include <atomic>
-#include "time_cvt.h"
 #include "min_max_heap.hpp"
-#include <limits>
+#define TRACE(...)  _CrtDbgReport( _CRT_WARN, __FILE__, __LINE__, "min_max_heap",__VA_ARGS__  );
 namespace prudens
 {
     uint64_t now()
@@ -29,33 +28,29 @@ namespace prudens
         timer_callback action;
         timer_msg() :timer_id( 0 ),
             elapsed( 0 ),
-            expired( std::numeric_limits<uint32_t>::max MAX_MACRO_COMPILE_SUPPORT() ),
+            expired( std::numeric_limits<uint64_t>::max MAX_MACRO_COMPILE_SUPPORT() ),
             repeat( false ),
             userdata( nullptr ) {}
 
         bool operator < ( const timer_msg& other )const
         {
-            return this->elapsed > other.elapsed;
+            return this->elapsed < other.elapsed;
         }
     };
     class timer
     {
     public:
-
         class TimerQueue
         {
         public:
             TimerQueue() {
-                _stop.exchange( false );
+                _stop.store( false );
+                _flag.store( false );
             }
             void run()
             {
                 while ( true )
                 {
-                    if (_stop)
-                    {
-                        return;
-                    }
                     while ( true )
                     {
                         if (_stop)
@@ -93,22 +88,47 @@ namespace prudens
 
                         }
                     }
-                    int64_t sleep_time = 30;//列表为空的时候就睡眠30ms
+                    int32_t sleep_time = std::numeric_limits<int32_t>::max MAX_MACRO_COMPILE_SUPPORT ();//列表为空的时候就睡眠30ms
                     {
                         std::lock_guard<std::mutex> guard( _mutex );
                         if ( !_timers.empty() )
                         {
-                            sleep_time = _timers.top().expired - now();
+                            sleep_time = static_cast<int32_t>(_timers.top().expired - now());
+                            if (sleep_time<0)
+                            {
+                                continue;
+                            }
                         }
                     }
-                    std::this_thread::sleep_for( milliseconds( sleep_time ) );
+                    if (_stop)
+                    {
+                        return;
+                    }
+                    std::unique_lock <std::mutex> lck( _mutex );
+                   // std::this_thread::sleep_for( milliseconds( sleep_time ) );
+                    if ( _cv.wait_for( lck, milliseconds( sleep_time ), [this] ()->bool { return this->_flag.load(); } ) )
+                    {
+                        TRACE( "cv is time out:%d\n", sleep_time );
+                    }
+                    else
+                    {
+                        TRACE("cv is run\n");
+                    }
+                    _flag.store( false );
                 }
             }
 
             void push( timer_msg& msg )
             {
-                std::lock_guard<std::mutex> guard( _mutex );
-                _timers.push( msg );
+                {
+                    std::lock_guard<std::mutex> guard( _mutex );
+                    _timers.push( msg );
+                }
+                {
+                    std::unique_lock <std::mutex> lck( _mutex );
+                    _flag.store( true);
+                    _cv.notify_all();
+                }
             }
             void clear()
             {
@@ -126,10 +146,31 @@ namespace prudens
                     return msg.timer_id == time_id;
                 } );
             }
+            void test()
+            {
+                std::lock_guard<std::mutex> guard( _mutex );
+                timer_msg msg;
+                msg.elapsed = 0;
+                msg.expired = 10000;
+                msg.repeat = false;
+                for ( int i = 0; i < 100; i++ )
+                {
+                    msg.expired += 1;
+                    _timers.push( msg );
+                }
+                while (!_timers.empty())
+                {
+                    
+                    TRACE( "%u\n ", _timers.top().expired );
+                    _timers.pop();
+                }
+            }
         private:
             std::atomic_bool _stop;
             prudens::max_min_heap<timer_msg> _timers;
             std::mutex _mutex;
+            std::condition_variable _cv;
+            std::atomic_bool _flag;
         };
 
         timer()
@@ -162,6 +203,11 @@ namespace prudens
         void remove( uint32_t time_id )
         {
             _queue->remove( time_id );
+        }
+        void test()
+        {
+            _queue->test();
+            
         }
     private:
         std::shared_ptr<TimerQueue> _queue;
