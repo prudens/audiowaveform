@@ -82,6 +82,7 @@
       <AdditionalLibraryDirectories>..\third-party\libsndfile\lib;E:\boost_1_59_0\bin\vc12\lib;./Release</AdditionalLibraryDirectories>
       <AdditionalDependencies>libsndfile-1.lib;libmad.lib;libgd.lib;d2d1.lib;WindowsCodecs.lib;dwrite.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
+      <AdditionalOptions>/NODEFAULTLIB:libcmt.lib /NODEFAULTLIB:msvcrt.lib /NODEFAULTLIB:libcd.lib /NODEFAULTLIB:libcmtd.lib /NODEFAULTLIB:msvcrtd.lib %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

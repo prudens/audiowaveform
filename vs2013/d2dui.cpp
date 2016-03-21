@@ -27,7 +27,7 @@
 * Provides the entry point for the application.                   *
 *                                                                 *
 ******************************************************************/
-
+using namespace prudens;
 int WINAPI WinMain(
     HINSTANCE /* hInstance */,
     HINSTANCE /* hPrevInstance */,
@@ -35,16 +35,21 @@ int WINAPI WinMain(
     int /* nCmdShow */
     )
 {
-    
+    Sleep( 2000 );
+    TRACE( "now :%s\n", timestamptostring().c_str() );
+    auto begin = timestamp();
         prudens::timer t;
-        uint32_t count = 1;
-        for ( int i = 0; i < 10; i++ )
+        t.start( 10000, false, [&] ( uint32_t time_id, void*userdata )
         {
-            t.start( i*100, true, [&] ( uint32_t time_id, void*userdata )
+            TRACE( "timer_id:%d now:%s \n", time_id, timestamptostring().c_str() );
+        }, nullptr );
+        uint32_t count = 1;
+        for ( int i = 0; i < 5; i++ )
+        {
+            t.start( i*1000, false, [&] ( uint32_t time_id, void*userdata )
             {
-                _CrtDbgReport( _CRT_WARN, __FILE__, __LINE__, "min_max_heap", "timer is coming %d\n", count++ );
-
-                    t.remove( time_id );
+                TRACE( "timer_id:%d now:%s \n", time_id, timestamptostring().c_str() );
+                 //   t.remove( time_id );
             }, nullptr );
         }
        
@@ -122,7 +127,7 @@ DemoApp::~DemoApp()
 HRESULT DemoApp::Initialize()
 {
     {
-         wavebuf_ = waveform_main( __argc, __argv );
+       //  wavebuf_ = waveform_main( __argc, __argv );
     }
     HRESULT hr;
 
@@ -514,21 +519,26 @@ HRESULT DemoApp::OnRender()
 // 		//m_pBitmapBrush->SetTransform( D2D1::Matrix3x2F::Translation( 50.0, 0.0 ));
 //         //m_pRenderTarget->FillRectangle(&rcBrushRect, m_pBitmapBrush);
 //         m_pRenderTarget->DrawRectangle(&rcBrushRect, m_pBlackBrush, 1, NULL);
-        m_pRenderTarget->DrawRectangle( D2D1::RectF( start.x, start.y, start.x+width, start.y+height ),m_pBlackBrush );
-       int size = wavebuf_.getSize();
-       FLOAT center = start.y + height;
-       for ( int i = 0; i < size && i < width; i++ )
-       {
-           int low = wavebuf_.getMinSample( i ) + 32768;
-           int high = wavebuf_.getMaxSample( i ) + 32768;
+      
+        int size = wavebuf_.getSize();
+        if (size>0)
+        {
+            m_pRenderTarget->DrawRectangle( D2D1::RectF( start.x, start.y, start.x + width, start.y + height ), m_pBlackBrush );
+            FLOAT center = start.y + height;
+            for ( int i = 0; i < size && i < width; i++ )
+            {
+                int low = wavebuf_.getMinSample( i ) + 32768;
+                int high = wavebuf_.getMaxSample( i ) + 32768;
 
-           // scale to fit the bitmap
-           int low_y = center - low * height / 65536;
-           int high_y = center - high * height / 65536;
-           m_pRenderTarget->DrawLine( D2D1::Point2F( start.x+i+0.5, low_y ), D2D1::Point2F( start.x+i+0.5, high_y ), m_pBlackBrush, 0.5f );
-       }
+                // scale to fit the bitmap
+                FLOAT low_y = center - low * height / 65536;
+                FLOAT high_y = center - high * height / 65536;
+                m_pRenderTarget->DrawLine( D2D1::Point2F( start.x + i + 0.5f, low_y ), D2D1::Point2F( start.x + i + 0.5, high_y ), m_pBlackBrush, 0.5f );
+            }
 
-       drawTimeAxisLabels();
+            drawTimeAxisLabels();
+        }
+
         hr = m_pRenderTarget->EndDraw();
 
         if (hr == D2DERR_RECREATE_TARGET)
