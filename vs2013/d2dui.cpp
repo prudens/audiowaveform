@@ -35,20 +35,20 @@ int WINAPI WinMain(
     int /* nCmdShow */
     )
 {
-    
+    {
         prudens::timer t;
         uint32_t count = 1;
         for ( int i = 0; i < 10; i++ )
         {
-            t.start( i*100, true, [&] ( uint32_t time_id, void*userdata )
+            t.start( i * 100, true, [&] ( uint32_t time_id, void*userdata )
             {
                 _CrtDbgReport( _CRT_WARN, __FILE__, __LINE__, "min_max_heap", "timer is coming %d\n", count++ );
 
-                    t.remove( time_id );
+                t.remove( time_id );
             }, nullptr );
         }
-       
-    
+        Sleep( 5000 );
+    }
 
     // Ignore the return value because we want to continue running even in the
     // unlikely event that HeapSetInformation fails.
@@ -170,13 +170,20 @@ HRESULT DemoApp::Initialize()
             ShowWindow(m_hwnd, SW_SHOWNORMAL);
 
             UpdateWindow(m_hwnd);
+            ::SetTimer( m_hwnd, 1000, 25, [] ( HWND hwnd, UINT id, UINT_PTR event, DWORD v )
+            {
+                SendMessage( hwnd, WM_PAINT, 0, 0 );
+            } );
         }
     }
 
     return hr;
 }
 
+void DemoApp::OnTimer( HWND hwnd, UINT,UINT_PTR, DWORD )
+{
 
+}
 /******************************************************************
 *                                                                 *
 *  This method is used to create resources which are not bound    *
@@ -684,6 +691,7 @@ LRESULT CALLBACK DemoApp::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 
             case WM_PAINT:
                 {
+                    TRACE( "wm_paint" );
                     pDemoApp->OnRender();
                     ValidateRect(hwnd, NULL);
                 }
