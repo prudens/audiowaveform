@@ -86,7 +86,8 @@ public:
     ~DemoApp();
 
     HRESULT Initialize();
-
+    
+    void OnTimer( HWND hwnd, UINT, UINT_PTR, DWORD );
     void RunMessageLoop();
 
 private:
