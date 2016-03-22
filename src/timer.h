@@ -7,8 +7,12 @@
 #include <memory>
 #include <functional>
 #include <atomic>
-#include "min_max_heap.hpp"
+#include "min_max_heap.hpp"//仿照消息队列queue，添加了几个函数，他是最小堆。代码就不上传了
+#if defined(_WIN32)
 #define TRACE(...)  _CrtDbgReport( _CRT_WARN, __FILE__, __LINE__, "min_max_heap",__VA_ARGS__  );
+#else
+#define TRACE(...) printf(__VA_ARGS__);
+#endif
 namespace prudens
 {
     uint64_t now()
@@ -105,30 +109,29 @@ namespace prudens
                         return;
                     }
                     std::unique_lock <std::mutex> lck( _mutex );
-                   // std::this_thread::sleep_for( milliseconds( sleep_time ) );
-                    if ( _cv.wait_for( lck, milliseconds( sleep_time ), [this] ()->bool { return this->_flag.load(); } ) )
+                    if ( _flag.load() == false )
                     {
-                        TRACE( "cv is time out:%d\n", sleep_time );
+                        if ( _cv.wait_for( lck, milliseconds( sleep_time ), [this] ()->bool { return this->_flag.load(); } ) )
+                        {
+                            TRACE( "cv is time out:%d\n", sleep_time );
+                        }
+                        else
+                        {
+                            TRACE( "cv flag is true\n" );
+                        }
                     }
-                    else
-                    {
-                        TRACE("cv is run\n");
-                    }
+
                     _flag.store( false );
                 }
             }
 
             void push( timer_msg& msg )
             {
-                {
-                    std::lock_guard<std::mutex> guard( _mutex );
-                    _timers.push( msg );
-                }
-                {
-                    std::unique_lock <std::mutex> lck( _mutex );
-                    _flag.store( true);
-                    _cv.notify_all();
-                }
+                std::unique_lock <std::mutex> lck( _mutex );
+                _timers.push( msg );
+                _flag.store( true );
+                _cv.notify_all();
+                
             }
             void clear()
             {
