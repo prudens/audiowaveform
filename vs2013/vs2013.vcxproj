@@ -100,7 +100,7 @@
     <ClInclude Include="..\src\SndFileAudioFileReader.h" />
     <ClInclude Include="..\src\Streams.h" />
     <ClInclude Include="..\src\string_cvt.h" />
-    <ClInclude Include="..\src\timer.h" />
+    <ClInclude Include="..\src\asyntask.h" />
     <ClInclude Include="..\src\TimeUtil.h" />
     <ClInclude Include="..\src\time_cvt.h" />
     <ClInclude Include="..\src\WaveformBuffer.h" />

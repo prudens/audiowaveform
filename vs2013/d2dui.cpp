@@ -21,12 +21,14 @@
 #include "TimeUtil.h"
 #include "string_cvt.h"
 #include "time_cvt.h"
-#include "../src/timer.h"
+#include "../src/asyntask.h"
 /******************************************************************
 *                                                                 *
 * Provides the entry point for the application.                   *
 *                                                                 *
 ******************************************************************/
+
+using namespace prudens;
 
 int WINAPI WinMain(
     HINSTANCE /* hInstance */,
@@ -35,21 +37,7 @@ int WINAPI WinMain(
     int /* nCmdShow */
     )
 {
-    {
-        prudens::timer t;
-        uint32_t count = 1;
-        for ( int i = 0; i < 10; i++ )
-        {
-            t.start( i * 100, true, [&] ( uint32_t time_id, void*userdata )
-            {
-                _CrtDbgReport( _CRT_WARN, __FILE__, __LINE__, "min_max_heap", "timer is coming %d\n", count++ );
-
-                t.remove( time_id );
-            }, nullptr );
-        }
-        Sleep( 5000 );
-    }
-
+    
     // Ignore the return value because we want to continue running even in the
     // unlikely event that HeapSetInformation fails.
     HeapSetInformation(NULL, HeapEnableTerminationOnCorruption, NULL, 0);
@@ -119,6 +107,7 @@ DemoApp::~DemoApp()
 *                                                                 *
 ******************************************************************/
 
+
 HRESULT DemoApp::Initialize()
 {
     {
@@ -170,10 +159,7 @@ HRESULT DemoApp::Initialize()
             ShowWindow(m_hwnd, SW_SHOWNORMAL);
 
             UpdateWindow(m_hwnd);
-            ::SetTimer( m_hwnd, 1000, 25, [] ( HWND hwnd, UINT id, UINT_PTR event, DWORD v )
-            {
-                SendMessage( hwnd, WM_PAINT, 0, 0 );
-            } );
+          
         }
     }
 
@@ -521,21 +507,35 @@ HRESULT DemoApp::OnRender()
 // 		//m_pBitmapBrush->SetTransform( D2D1::Matrix3x2F::Translation( 50.0, 0.0 ));
 //         //m_pRenderTarget->FillRectangle(&rcBrushRect, m_pBitmapBrush);
 //         m_pRenderTarget->DrawRectangle(&rcBrushRect, m_pBlackBrush, 1, NULL);
-        m_pRenderTarget->DrawRectangle( D2D1::RectF( start.x, start.y, start.x+width, start.y+height ),m_pBlackBrush );
-       int size = wavebuf_.getSize();
-       FLOAT center = start.y + height;
-       for ( int i = 0; i < size && i < width; i++ )
-       {
-           int low = wavebuf_.getMinSample( i ) + 32768;
-           int high = wavebuf_.getMaxSample( i ) + 32768;
+      
+        int size = wavebuf_.getSize();
+        if (size>0)
+        {
+            static int count = 1;
+            {
+                count += 3;
+            }
+            m_pRenderTarget->DrawRectangle( D2D1::RectF( start.x, start.y, start.x + width, start.y + height ), m_pBlackBrush );
+            FLOAT center = start.y + height;
+            for ( int i = 0; i < size && i < width; i++ )
+            {
+                int low = wavebuf_.getMinSample( i ) + 32768;
+                int high = wavebuf_.getMaxSample( i ) + 32768;
 
-           // scale to fit the bitmap
-           int low_y = center - low * height / 65536;
-           int high_y = center - high * height / 65536;
-           m_pRenderTarget->DrawLine( D2D1::Point2F( start.x+i+0.5, low_y ), D2D1::Point2F( start.x+i+0.5, high_y ), m_pBlackBrush, 0.5f );
-       }
+                // scale to fit the bitmap
+                FLOAT low_y = center - low * height / 65536;
+                FLOAT high_y = center - high * height / 65536;
+                m_pRenderTarget->DrawLine( D2D1::Point2F( start.x + i + 0.5f, low_y ), D2D1::Point2F( start.x + i + 0.5f, high_y ), m_pBlackBrush, 0.5f );
+                if (i > count)
+                {
+                    break;
+                }
 
-       drawTimeAxisLabels();
+            }
+
+            drawTimeAxisLabels();
+        }
+
         hr = m_pRenderTarget->EndDraw();
 
         if (hr == D2DERR_RECREATE_TARGET)
@@ -691,7 +691,6 @@ LRESULT CALLBACK DemoApp::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 
             case WM_PAINT:
                 {
-                    TRACE( "wm_paint" );
                     pDemoApp->OnRender();
                     ValidateRect(hwnd, NULL);
                 }

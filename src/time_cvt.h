@@ -25,7 +25,7 @@ namespace prudens{
 
         // return time( nullptr );
     }
-
+    
     std::string timestamptostring( uint64_t ts )
     {
         std::time_t t = ts;
@@ -34,6 +34,11 @@ namespace prudens{
         ss.imbue( std::locale( "zh-CN" ) );
         ss << std::put_time( &tm, " %c" );
         return ss.str();
+    }
+
+    std::string timestamptostring()
+    {
+        return timestamptostring( timestamp() );
     }
 
     // ¼ÆÊ±Æ÷

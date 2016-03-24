@@ -87,10 +87,10 @@
     <ClInclude Include="..\src\time_cvt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\timer.h">
+    <ClInclude Include="..\src\min_max_heap.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\min_max_heap.hpp">
+    <ClInclude Include="..\src\asyntask.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
