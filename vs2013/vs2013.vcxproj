@@ -85,9 +85,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\Array.h" />
     <ClInclude Include="..\src\AudioFileReader.h" />
     <ClInclude Include="..\src\AudioProcessor.h" />
+    <ClInclude Include="..\src\common_defines.h" />
     <ClInclude Include="..\src\GdImageRenderer.h" />
     <ClInclude Include="..\src\madlld-1.1p1\bstdfile.h" />
     <ClInclude Include="..\src\Main.h" />
@@ -102,7 +102,7 @@
     <ClInclude Include="..\src\string_cvt.h" />
     <ClInclude Include="..\src\asyntask.h" />
     <ClInclude Include="..\src\TimeUtil.h" />
-    <ClInclude Include="..\src\time_cvt.h" />
+    <ClInclude Include="..\src\time_cvt.hpp" />
     <ClInclude Include="..\src\WaveformBuffer.h" />
     <ClInclude Include="..\src\WaveformColors.h" />
     <ClInclude Include="..\src\WaveformGenerator.h" />
@@ -112,6 +112,7 @@
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\asyntask.cpp" />
     <ClCompile Include="..\src\AudioFileReader.cpp" />
     <ClCompile Include="..\src\AudioProcessor.cpp" />
     <ClCompile Include="..\src\GdImageRenderer.cpp" />

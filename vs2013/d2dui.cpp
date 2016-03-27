@@ -16,12 +16,12 @@
 
 #include "d2dui.h"
 #include "Main.h"
-#include "Array.h"
 #include "MathUtil.h"
 #include "TimeUtil.h"
-#include "string_cvt.h"
-#include "time_cvt.h"
-#include "../src/asyntask.h"
+//#include "string_cvt.h"
+#include "time_cvt.hpp"
+#include "asyntask.h"
+#include "common_defines.h"
 /******************************************************************
 *                                                                 *
 * Provides the entry point for the application.                   *
@@ -37,7 +37,8 @@ int WINAPI WinMain(
     int /* nCmdShow */
     )
 {
-    
+    int arr[4];
+    TRACE("arr length is :%d\n",countof(arr));
     // Ignore the return value because we want to continue running even in the
     // unlikely event that HeapSetInformation fails.
     HeapSetInformation(NULL, HeapEnableTerminationOnCorruption, NULL, 0);
@@ -595,7 +596,7 @@ void DemoApp::drawTimeAxisLabels() const
 
         WCHAR wlabel[50] = {0};
         char label[50];
-        const int label_length = TimeUtil::secondsToString( label, ARRAY_LENGTH( label ), secs );
+        const int label_length = TimeUtil::secondsToString( label, countof( label ), secs );
         size_t len = strlen( label ) + 1;
         size_t converted = 0;
         mbstowcs_s( &converted, wlabel, len, label, _TRUNCATE );
@@ -854,7 +855,7 @@ int DemoApp::getAxisLabelScale() const
 
         if ( pixels < MIN_SPACING )
         {
-            if ( ++index == ARRAY_LENGTH( steps ) )
+            if ( ++index == countof( steps ) )
             {
                 base_secs *= 60; // seconds -> minutes -> hours
                 index = 0;
