@@ -4,11 +4,6 @@
 #include <locale>
 #include <codecvt>
 
-#if defined(_DEBUG) || defined(DEBUG)
-#define ASSERT(p) assert(p)
-#else 
-#define ASSERT( p ) (void)0;
-#endif // DEBUG
 
 #if defined(WIN32) || defined(_WIN32)
 #if _MSC_VER < 1800
@@ -19,6 +14,7 @@
 #error "should use C++11 implementation"
 #endif
 #endif//
+
 namespace prudens{
     /*convert unicode string to mbcs*/
     std::string wstombs( const std::wstring& src )

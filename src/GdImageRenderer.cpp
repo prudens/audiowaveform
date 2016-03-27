@@ -21,7 +21,6 @@
 //
 //------------------------------------------------------------------------------
 #include "GdImageRenderer.h"
-#include "Array.h"
 #include "MathUtil.h"
 #include "Streams.h"
 #include "TimeUtil.h"
@@ -35,7 +34,8 @@
 #include <cstring>
 #include <iomanip>
 #include <iostream>
-
+#include "common_defines.h"
+using namespace prudens;
 //------------------------------------------------------------------------------
 
 // Upper limits prevent numeric overflows in image rendering.
@@ -272,7 +272,7 @@ void GdImageRenderer::drawTimeAxisLabels() const
         gdImageLine(image_, x, image_height_ - 1, x, image_height_ - 1 - marker_height, border_color_);
 
         char label[50];
-        const int label_length = TimeUtil::secondsToString(label, ARRAY_LENGTH(label), secs);
+        const int label_length = TimeUtil::secondsToString(label, countof(label), secs);
 
         const int label_width = font->w * label_length;
         const int label_x = x - (label_width / 2) + 1;
@@ -319,7 +319,7 @@ int GdImageRenderer::getAxisLabelScale() const
         int pixels = secondsToPixels(secs);
 
         if (pixels < MIN_SPACING) {
-            if (++index == ARRAY_LENGTH(steps)) {
+            if (++index == countof(steps)) {
                 base_secs *= 60; // seconds -> minutes -> hours
                 index = 0;
             }

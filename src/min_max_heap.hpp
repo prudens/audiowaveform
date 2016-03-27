@@ -1,11 +1,10 @@
+#pragma once
 #ifndef MIN_MAX_HEAP_H
 #define MIN_MAX_HEAP_H
 
 #include <algorithm>
 #include <vector>
-#include <type_traits>
-#include "time_cvt.h"
-#include <crtdbg.h>
+
 namespace prudens{
     template<class T, class Cmp = std::less<T>>
     class max_min_heap
@@ -130,4 +129,4 @@ namespace prudens{
         return heap;
     }
 }
-#endif
+#endif // !MIN_MAX_HEAP_H
