@@ -16,6 +16,12 @@
     <Filter Include="UI">
       <UniqueIdentifier>{6c01e605-bc7f-4981-beb5-31a3befc7107}</UniqueIdentifier>
     </Filter>
+    <Filter Include="parsefile">
+      <UniqueIdentifier>{32ea8400-d8de-4cd6-95ca-ace3877796a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="parsecommandline">
+      <UniqueIdentifier>{add51b82-89ae-4002-9523-a85b91c9715d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\AudioFileReader.h">
@@ -31,12 +37,6 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Mp3AudioFileReader.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\OptionHandler.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Options.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Rgba.h">
@@ -66,9 +66,6 @@
     <ClInclude Include="..\src\WavFileWriter.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\madlld-1.1p1\bstdfile.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\Main.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -93,6 +90,21 @@
     <ClInclude Include="..\src\time_cvt.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\madlld-1.1p1\bstdfile.h">
+      <Filter>parsefile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\OptionHandler.h">
+      <Filter>parsecommandline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Options.h">
+      <Filter>parsecommandline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\consolecolor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\uinttest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\AudioFileReader.cpp">
@@ -111,12 +123,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\Mp3AudioFileReader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\OptionHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\Rgba.cpp">
@@ -143,14 +149,20 @@
     <ClCompile Include="..\src\WavFileWriter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\madlld-1.1p1\bstdfile.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="d2dui.cpp">
       <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="..\src\asyntask.cpp">
       <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\madlld-1.1p1\bstdfile.c">
+      <Filter>parsefile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\OptionHandler.cpp">
+      <Filter>parsecommandline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Options.cpp">
+      <Filter>parsecommandline</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
