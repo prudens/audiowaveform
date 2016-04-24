@@ -11,7 +11,6 @@ namespace prudens{
     {
         typedef size_t index;
     public:
-
         max_min_heap()
         {
         }
@@ -28,7 +27,7 @@ namespace prudens{
             }
             data_[0] = std::move( data_.back() );
             data_.pop_back();
-            adjust( 0 );// sort again
+            adjustdown( 0 );// sort again
         }
 
         T top()const
@@ -52,14 +51,14 @@ namespace prudens{
 
         void push( T &data )
         {
-            data_.insert( data_.begin(), data );
-            adjust( 0 );
+            data_.push_back(data);
+            adjustup(data_.size()-1);
         }
 
         void push( T&&data )
         {
-            data_.insert( data_.begin(), data );
-            adjust( 0 );
+            data_.push_back( data );
+            adjustup( data_.size() - 1 );
         }
 
         size_t size()const _NOEXCEPT{ return data_.size(); }
@@ -68,22 +67,35 @@ namespace prudens{
         void clear()_NOEXCEPT{ data_.clear(); }
         void remove_if( std::function<bool( const T&value )> func )
         {
+            if (data_.empty())
+            {
+                return;
+            }
+
+            std::size_t fix_node = data_.size() - 1;
             while ( true )
             {
                 auto it = std::find_if( data_.begin(), data_.end(), func );
                 if ( it != data_.end() )
                 {
-                    data_.erase( it );
+                   data_.erase( it );
+                   fix_node = std::min( fix_node, ( std::size_t )std::distance( data_.begin(), it ) );
                 }
                 else
                 {
                     break;
                 }
             }
+            auto max_node = data_.size();
+            for ( auto node = fix_node; node < max_node; node++ )
+            {
+                adjustup( node );
+            }
         }
     protected:
-        void adjust( index node )
+        void adjustdown( index node )
         {
+            Cmp less;
             size_t size = data_.size();
             while ( true )
             {
@@ -91,11 +103,11 @@ namespace prudens{
                 index r = right( node );
                 index next = node;
 
-                if ( l < size && less_( data_[l], data_[node] ) )
+                if ( l < size && less( data_[l], data_[node] ) )
                 {
                     next = l;
                 }
-                if ( r < size && less_( data_[r], data_[next] ) )
+                if ( r < size && less( data_[r], data_[next] ) )
                 {
                     next = r;
                 }
@@ -110,11 +122,32 @@ namespace prudens{
                 }
             }
         }
+
+        void adjustup( index node )
+        {
+            Cmp less;
+            size_t size = data_.size();
+            while ( node>0 )
+            {
+                index p = parent( node );
+                if ( less( data_[node], data_[p] ) )
+                {
+                    std::swap( data_[node], data_[p] );
+                    node = p;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
         index left( index node )const _NOEXCEPT{ return node * 2 + 1; }
         index right( index node )const _NOEXCEPT{ return ( node + 1 ) * 2; }
+        index parent( index node )const _NOEXCEPT{ return (node-1) / 2; }
+
     private:
-        std::vector<T> data_;// 第一个数据不要了，方便处理节点关系。
-        Cmp less_;
+        std::vector<T> data_;
     };
 
 

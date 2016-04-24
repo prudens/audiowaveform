@@ -34,7 +34,9 @@ namespace prudens
 
             bool operator < ( const Task& other )const
             {
-                return this->elapsed < other.elapsed;
+                return this->elapsed < other.elapsed 
+                    || this->elapsed == other.elapsed
+                    && this->id < other.id;
             }
         };
 
